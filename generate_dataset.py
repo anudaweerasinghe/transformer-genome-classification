@@ -61,6 +61,9 @@ def main():
 
     # Truncate such that every dataset has the same number of sequences
     min_data_count = min(len(hiv_data), len(influenza_data), len(covid_data))
+    print("HIV data count: ", len(hiv_data))  # 20525
+    print("Influenza data count: ", len(influenza_data))  # 20525
+    print("COVID data count: ", len(covid_data))  # 20525
     print("Min data count: ", min_data_count) # 20525
     random.shuffle(hiv_data)
     random.shuffle(influenza_data)
