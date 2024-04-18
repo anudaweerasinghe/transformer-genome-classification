@@ -1,5 +1,5 @@
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, AutoConfig, DataCollatorForLanguageModeling
+from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig, DataCollatorForLanguageModeling
 import os
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
