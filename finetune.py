@@ -1,10 +1,10 @@
-import transformers
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, AutoConfig, DataCollatorForLanguageModeling
 import os
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-os.environ["WANDB_DISABLED"] = "true"
+os.environ["WANDB_PROJECT"] = "CompBio-Evo"  # name your W&B project
+os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # log all model checkpoints
 
 model_name = 'togethercomputer/evo-1-8k-base'
 
@@ -56,7 +56,8 @@ training_args = TrainingArguments(
     logging_steps=10,
     eval_steps=100,
     logging_strategy="steps",
-    bf16=True
+    bf16=True,
+    report_to="wandb",
     # fp16=True, # This didn't work.
 )
 
