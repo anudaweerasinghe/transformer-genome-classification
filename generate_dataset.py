@@ -7,6 +7,7 @@ TRAIN_CSV_PATH = "train.csv"
 TEST_CSV_PATH = "test.csv"
 TRAIN_TEST_SPLIT_RATIO = 0.8
 SEQ_LENGTH = 1000
+SAMPLES_PER_CLASS = 20000
 
 
 def get_data(fasta_files_dir, label):
@@ -42,6 +43,20 @@ def split_dataset(data, ratio):
     random.shuffle(data)
     splitIndex = int(ratio * len(data))
     return data[:splitIndex], data[splitIndex:]
+
+
+def reduce_samples_to_limit(data, limit):
+    values_per_label = dict()
+    for seq, label in data:
+        if label not in values_per_label:
+            values_per_label[label] = []
+        if len(values_per_label[label]) >= limit:
+            continue
+        values_per_label[label].append((seq, label))
+    new_data = []
+    for label in values_per_label:
+        new_data.extend(values_per_label[label])
+    return new_data
 
 
 def main():
@@ -105,6 +120,28 @@ def main():
     test_data = list(filter(lambda x: len(x[0]) >= SEQ_LENGTH, test_data))
     truncate_sequences(train_data, SEQ_LENGTH)
     truncate_sequences(test_data, SEQ_LENGTH)
+
+    hiv_train_count = sum([1 for _, label in train_data if label == "H"])
+    hiv_test_count = sum([1 for _, label in test_data if label == "H"])
+    influenza_train_count = sum([1 for _, label in train_data if label == "I"])
+    influenza_test_count = sum([1 for _, label in test_data if label == "I"])
+    covid_train_count = sum([1 for _, label in train_data if label == "C"])
+    covid_test_count = sum([1 for _, label in test_data if label == "C"])
+    print("HIV train count: ", hiv_train_count)
+    print("HIV test count: ", hiv_test_count)
+    print("Influenza train count: ", influenza_train_count)
+    print("Influenza test count: ", influenza_test_count)
+    print("COVID train count: ", covid_train_count)
+    print("COVID test count: ", covid_test_count)
+
+    # Reduce to 20k samples each across train and test, per class
+    print("Reducing to 20k samples per class")
+    train_data = reduce_samples_to_limit(
+        train_data, SAMPLES_PER_CLASS * TRAIN_TEST_SPLIT_RATIO
+    )
+    test_data = reduce_samples_to_limit(
+        test_data, SAMPLES_PER_CLASS * (1 - TRAIN_TEST_SPLIT_RATIO)
+    )
 
     hiv_train_count = sum([1 for _, label in train_data if label == "H"])
     hiv_test_count = sum([1 for _, label in test_data if label == "H"])
