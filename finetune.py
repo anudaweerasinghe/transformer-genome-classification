@@ -6,14 +6,14 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 os.environ["WANDB_PROJECT"] = "CompBio-Evo"  # name your W&B project
 os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # log all model checkpoints
 
-model_name = 'togethercomputer/evo-1-8k-base'
+model_name = 'togethercomputer/evo-1-131k-base'
 
-# model_config = AutoConfig.from_pretrained(model_name, trust_remote_code=True)
-# model_config.use_cache = False
+model_config = AutoConfig.from_pretrained(model_name, trust_remote_code=True)
+model_config.use_cache = False
 
 model = AutoModelForCausalLM.from_pretrained(
     model_name,
-    # config=model_config,
+    config=model_config,
     trust_remote_code=True,
     device_map={"":0},
     torch_dtype=torch.float16
