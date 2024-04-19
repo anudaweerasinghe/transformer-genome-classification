@@ -1,6 +1,5 @@
 from datasets import load_dataset
 
-print("hello, world")
 
 dataset = load_dataset("anudaw/genome-classification")
 train_data = dataset['train']
