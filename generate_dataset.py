@@ -58,6 +58,12 @@ def reduce_samples_to_limit(data, limit):
         new_data.extend(values_per_label[label])
     return new_data
 
+def generate_random_data(count, length):
+    data = []
+    for i in range(count):
+        seq = "".join(random.choices("ACGT", k=length))
+        data.append((seq, "R"))
+    return data
 
 def main():
     """
@@ -134,6 +140,13 @@ def main():
     print("COVID train count: ", covid_train_count)
     print("COVID test count: ", covid_test_count)
 
+    print("Generating random data")
+    random_train = generate_random_data(hiv_train_count, SEQ_LENGTH)
+    random_test = generate_random_data(hiv_test_count, SEQ_LENGTH)
+    train_data.extend(random_train)
+    test_data.extend(random_test)
+    print("Added random data")
+
     # Reduce to 20k samples each across train and test, per class
     print("Reducing to 20k samples per class")
     train_data = reduce_samples_to_limit(
@@ -149,12 +162,16 @@ def main():
     influenza_test_count = sum([1 for _, label in test_data if label == "I"])
     covid_train_count = sum([1 for _, label in train_data if label == "C"])
     covid_test_count = sum([1 for _, label in test_data if label == "C"])
+    random_train_count = sum([1 for _, label in train_data if label == "R"])
+    random_test_count = sum([1 for _, label in test_data if label == "R"])
     print("HIV train count: ", hiv_train_count)
     print("HIV test count: ", hiv_test_count)
     print("Influenza train count: ", influenza_train_count)
     print("Influenza test count: ", influenza_test_count)
     print("COVID train count: ", covid_train_count)
     print("COVID test count: ", covid_test_count)
+    print("Random train count: ", random_train_count)
+    print("Random test count: ", random_test_count)
 
     print("Writing to CSV")
     # Write to CSV
