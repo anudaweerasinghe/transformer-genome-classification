@@ -1,0 +1,11 @@
+sagemaker
+boto3
+transformers
+datasets
+argparse
+flash_attn
+wandb
+stripedhyena==0.2.2
+biopython
+pandas
+torch

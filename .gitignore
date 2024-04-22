@@ -8,4 +8,5 @@ test_hf*
 
 *.fna
 
+evo-env/
 *.csv

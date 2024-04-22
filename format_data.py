@@ -90,20 +90,19 @@ def generate_training_data(virus, sequences):
 def main():
     influenza_sequences = get_influenza_data()
     print("Influenza sequences: ", len(influenza_sequences))
+    influenza_sequences = sorted(
+        influenza_sequences, key=lambda x: len(x), reverse=True
+    )
     hiv_sequences = get_hiv_data()
     print("HIV sequences: ", len(hiv_sequences))
+    hiv_sequences = sorted(hiv_sequences, key=lambda x: len(x), reverse=True)
     covid_sequences = get_covid_data()
     print("COVID sequences: ", len(covid_sequences))
+    covid_sequences = sorted(covid_sequences, key=lambda x: len(x), reverse=True)
     min_sequence_count = min(
         len(influenza_sequences), len(hiv_sequences), len(covid_sequences)
     )
-
-    random.seed(0)
-    for sequence in [influenza_sequences, hiv_sequences, covid_sequences]:
-        random.shuffle(sequence)
-    influenza_sequences = influenza_sequences[:min_sequence_count]
-    hiv_sequences = hiv_sequences[:min_sequence_count]
-    covid_sequences = covid_sequences[:min_sequence_count]
+    print("Shortest sequence length: ", min_sequence_count)
     generate_training_data("influenza", influenza_sequences)
     print("Wrote influenza data")
     generate_training_data("hiv", hiv_sequences)
