@@ -27,7 +27,8 @@ def main():
     print("Wrote train data")
     print("Writing test data")
     # In a directory named test_hf, write each datum as a unique fasta file where the first line is >virus_i and the seocond line is the sequence
-    os.makedirs("test_hf", exist_ok=True)
+    test_dir = "test_hf"
+    os.makedirs(test_dir, exist_ok=True)
     for i, datum in enumerate(test_dataset):
         seq = datum["seq"]
         label = datum["label"]
@@ -37,7 +38,7 @@ def main():
             virus = "influenza"
         elif label == "C":
             virus = "covid"
-        with open(f"test_hf/{virus}_{i}.fasta", "w") as f:
+        with open(f"{test_dir}/{virus}_{i}.fasta", "w") as f:
             f.write(f">{virus}_{i}\n{seq}\n")
     print("Wrote test data")
     
