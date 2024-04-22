@@ -17,14 +17,15 @@ test_data = dataset['test']
 
 mismatches = 0
 iterations = 12000
-for i in range(iterations):
+for i in range(0,10):
     with open("temp.fasta","w") as temp:
         temp.write(">seq\n")
-        temp.write(test_data[i]["seq"])
-    
-    blastcall = subprocess.run(["blastn", "-db", "blastdb/db/baseline", "-query", "temp.fasta"],
+        for j in range(0, 1000, 60):
+            temp.write(test_data[j]["seq"][j:j+20] + "\n")
+    blastcall = subprocess.run(["blastn", "-db", "blastdb/test", "-query", "temp.fasta", "evalue", "1e-17"],
                     capture_output=True, text=True)
     output = blastcall.stdout
+    print("output", output)
     if "No hits found" in output:
         mismatches += 1
         continue
