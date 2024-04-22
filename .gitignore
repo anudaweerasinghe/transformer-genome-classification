@@ -1,3 +1,11 @@
 .DS_Store
 
 data*/
+
+train.fasta*
+train_hf*
+test_hf*
+
+*.fna
+
+*.csv
