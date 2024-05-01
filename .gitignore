@@ -1,6 +1,6 @@
 .DS_Store
 
-data*/
+data_*/
 
 train.fasta*
 train_hf*

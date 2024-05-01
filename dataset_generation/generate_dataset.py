@@ -87,6 +87,17 @@ def main():
     random.shuffle(hiv_data)
     random.shuffle(influenza_data)
     random.shuffle(covid_data)
+
+    hiv_lengths = [len(seq) for seq, label in hiv_data]
+    influenza_lengths = [len(seq) for seq, label in influenza_data]
+    covid_lengths = [len(seq) for seq, label in covid_data]
+    print("HIV median seq length:", statistics.median(hiv_lengths))
+    print("HIV mean seq length:", statistics.mean(hiv_lengths))
+    print("Influenza median seq length:", statistics.median(influenza_lengths))
+    print("Influenza mean seq length:", statistics.mean(influenza_lengths))
+    print("COVID median seq length:", statistics.median(covid_lengths))
+    print("COVID mean seq length:", statistics.mean(covid_lengths))
+
     # hiv_data = hiv_data[:min_data_count]
     # influenza_data = influenza_data[:min_data_count]
     # covid_data = covid_data[:min_data_count]
@@ -155,7 +166,7 @@ def main():
     print("Influenza test count: ", influenza_test_count)
     print("COVID train count: ", covid_train_count)
     print("COVID test count: ", covid_test_count)
-
+    return
     print("Writing to CSV")
     # Write to CSV
     write_to_csv(TRAIN_CSV_PATH, train_data)
